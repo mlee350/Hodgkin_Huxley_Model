@@ -1,6 +1,6 @@
 %%%Define Time
 
-steps = 0.001 ;
+steps = 0.001 ; %100,001 steps
 time = 0:steps:100; %Total Simulation time: 100ms
 
 %%%Constants
@@ -69,7 +69,9 @@ for i = 2:length(time)
     I_Na = m^3*g_Na_max*h*(V_m(i)-E_Na); 
     I_K = n^4*g_K_max*(V_m(i)-E_K);
     I_L = g_L_max*(V_m(i)-E_L);
-    I_ion = 5-I_Na - I_K - I_L;
+    
+    %I_ion = I_Na - I_K - I_L; %Resting State
+    I_ion = 5-I_Na - I_K - I_L; %Constant current DC
   
     a_m = 0.1*((25-V_m(i))/(exp((25-V_m(i))/10) - 1));
     B_m = 4*exp(-V_m(i)/18);
@@ -100,9 +102,18 @@ V_m = V_m - 70;
 
 figure
 plot(time,V_m)
+title('Membrane Potential');
+legend('Voltage');
+xlabel('Time (ms)') % x-axis label
+ylabel('Voltage (mV)') % y-axis label
+    
 ylim([-100, 70]);
 
 figure
-plot(time, g_Na_vec, time, g_K_vec, time, g_L_vec) 
-axis([0, 100, 0, 50]);
+plot(time, g_Na_vec, time, g_K_vec) 
+axis([0, 100, -10, 50]);
+title('gNa and gK');
+legend('gNa','gK');
+xlabel('Time (ms)') % x-axis label
+ylabel('Conducrance (S/cm^2)') % y-axis label
 
