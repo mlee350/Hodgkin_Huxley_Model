@@ -75,8 +75,8 @@ for i = 2:length(time)
     I_K = n^4*g_K_max*(V_m(i)-E_K);
     I_L = g_L_max*(V_m(i)-E_L);
     
-    %I_ion = I_Na - I_K - I_L; %Resting State
-    I_ion = I_step(i) - I_Na - I_K - I_L; %step pulse
+    I_ion = I_Na - I_K - I_L; %Resting State
+    %I_ion = I_step(i) - I_Na - I_K - I_L; %step pulse
     %I_ion = 5-I_Na - I_K - I_L; %Constant current DC
   
     a_m = 0.1*((25-V_m(i))/(exp((25-V_m(i))/10) - 1));
