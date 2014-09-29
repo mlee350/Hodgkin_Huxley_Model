@@ -56,6 +56,11 @@ g_Na_vec(1) = g_Na;
 g_K_vec(1) = g_K;
 g_L_vec(1) = g_L;
 
+%Create step pulse
+
+%concantenate the 5uA/cm current for 0.5 ms
+I_step = horzcat(ones(1, 501), zeros(1, 99501)) ;
+
 %%%Iterate + Eulers
 
 %Start at second iteration since first iteration is already calculated
@@ -71,7 +76,8 @@ for i = 2:length(time)
     I_L = g_L_max*(V_m(i)-E_L);
     
     %I_ion = I_Na - I_K - I_L; %Resting State
-    I_ion = 5-I_Na - I_K - I_L; %Constant current DC
+    I_ion = I_step(i) - I_Na - I_K - I_L; %step pulse
+    %I_ion = 5-I_Na - I_K - I_L; %Constant current DC
   
     a_m = 0.1*((25-V_m(i))/(exp((25-V_m(i))/10) - 1));
     B_m = 4*exp(-V_m(i)/18);
@@ -111,7 +117,7 @@ ylim([-100, 70]);
 
 figure
 plot(time, g_Na_vec, time, g_K_vec) 
-axis([0, 100, -10, 50]);
+axis([0, 100, -10, 40]);
 title('gNa and gK');
 legend('gNa','gK');
 xlabel('Time (ms)') % x-axis label
